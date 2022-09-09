@@ -12,14 +12,14 @@ output_dir = output_dir.resolve().absolute()
 pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", use_auth_token=token)
 pipe = pipe.to("mps")
 
-prompt = "a painting of a cat in an uniform"
+prompt = "a hamster is cleaning the floor with a broom"
 
 # First-time "warmup" pass (see explanation above)
 _ = pipe(prompt, num_inference_steps=1)
 
 # Results match those from the CPU device after the warmup pass.
 images = pipe(prompt).images
-for image in images:
+for i,image in enumerate(images):
     prompt_combined = prompt.replace(" ","_")
     output_dir_string = str(output_dir)
-    image.save(f"{output_dir_string}/{prompt_combined}.png")
+    image.save(f"{output_dir_string}/{prompt_combined}_{i}.png")
